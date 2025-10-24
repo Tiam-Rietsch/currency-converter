@@ -240,11 +240,9 @@ class _ConverterScreenState extends State<ConverterScreen> {
                 shape: BoxShape.circle,
               ),
               clipBehavior: Clip.antiAlias,
-              child: CountryFlag.fromCountryCode(
-                flagCode,
-                // width: 40,
-                // height: 40,
-              ),
+              child: flagCode == 'EU'
+                  ? _buildEUFlag()
+                  : CountryFlag.fromCountryCode(flagCode),
             ),
             const SizedBox(width: 12),
 
@@ -320,7 +318,9 @@ class _ConverterScreenState extends State<ConverterScreen> {
                     shape: BoxShape.circle,
                   ),
                   clipBehavior: Clip.antiAlias,
-                  child: CountryFlag.fromCountryCode(flagCode),
+                  child: flagCode == 'EU'
+                      ? _buildEUFlag()
+                      : CountryFlag.fromCountryCode(flagCode),
                 ),
                 title: Text(
                   currency.code,
@@ -397,6 +397,33 @@ class _ConverterScreenState extends State<ConverterScreen> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildEUFlag() {
+    return Container(
+      decoration: const BoxDecoration(
+        color: Color(0xFF003399), // EU Blue
+        shape: BoxShape.circle,
+      ),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          // Circle of 12 stars (simplified for circular display)
+          for (int i = 0; i < 12; i++)
+            Transform.rotate(
+              angle: (i * 30) * 3.14159 / 180,
+              child: Transform.translate(
+                offset: const Offset(0, -12),
+                child: const Icon(
+                  Icons.star,
+                  color: Color(0xFFFFCC00), // EU Yellow
+                  size: 4,
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }
